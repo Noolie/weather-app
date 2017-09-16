@@ -2,7 +2,7 @@
   "name": "04-wheather-app",
   "version": "0.0.1",
   "private": true,
-  "homepage": "https://noolie.github.io/wheather-app",
+  "homepage": "https://noolie.github.io/weather-app/",
   "dependencies": {
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
