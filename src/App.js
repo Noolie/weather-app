@@ -72,7 +72,7 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    fetch('http://api.openweathermap.org/data/2.5/forecast?q=Odessa,ua&units=metric&appid=3ad0ec109fcb8d87875c504182f2cee5')
+    fetch('https://api.openweathermap.org/data/2.5/forecast?q=Odessa,ua&units=metric&appid=3ad0ec109fcb8d87875c504182f2cee5')
       .then((response) => {
           if (response.status !== 200) {
             console.log('Status error: ' +
@@ -124,7 +124,7 @@ class App extends React.Component {
   }
 
   render() {
-    if(!this.state.data) return <p>{this.state.initText}</p>
+    if(!this.state.data) return <p class='notification'>{this.state.initText}</p>
     return (
       <div className='weather-board'>
         <ul className="small-weather-info">

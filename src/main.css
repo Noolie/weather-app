@@ -20,6 +20,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+.notification{
+  color: rgba(255,255,255,0.8);
+}
 .weather-board{
   position: relative;
   width: 70%;
