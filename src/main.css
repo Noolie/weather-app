@@ -21,6 +21,8 @@ body {
   align-items: center;
 }
 .notification{
+  font-weight: 100;
+  font-size: 48px;
   color: rgba(255,255,255,0.8);
 }
 .weather-board{
@@ -46,9 +48,6 @@ body {
   justify-content: space-around;
   align-items: center;
   cursor: pointer;
-  -webkit-transition: background .2s, color .2s;
-  -moz-transition: background .2s, color .2s;
-  -o-transition: background .2s, color .2s;
   transition: background .2s, color .2s;
 }
 .day-time,.day-temp{
@@ -68,7 +67,8 @@ body {
   color: rgba(255,255,255,0.8);
 }
 .is-active-small,.is-active-small:hover{
-  background: linear-gradient(to right, #267BBC, #1E384C);
+  /*background: linear-gradient(to right, #267BBC, #1E384C);*/
+  background: #1E384C;
   cursor: default;
 }
 .is-active-small:hover .day-time,.is-active-small:hover .day-temp{

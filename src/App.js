@@ -124,7 +124,7 @@ class App extends React.Component {
   }
 
   render() {
-    if(!this.state.data) return <p class='notification'>{this.state.initText}</p>
+    if(!this.state.data) return <p className='notification'>{this.state.initText}</p>
     return (
       <div className='weather-board'>
         <ul className="small-weather-info">
