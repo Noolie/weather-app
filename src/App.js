@@ -149,7 +149,8 @@ class App extends React.Component {
   }
 
   searchCity(ev){
-    if(ev.key !== 'Enter' && ev.target.tagName !== 'BUTTON') return;
+    if(ev.key !== 'Enter' && ev.target.tagName !== 'BUTTON' && ev.target.tagName !== 'SPAN') return;
+    console.log(ev.target.tagName)
     let searchValue = this.refs.searchField.value;
     if(searchValue.length < 3) return;
     this.refs.searchBoard.classList.add('is-searching');
