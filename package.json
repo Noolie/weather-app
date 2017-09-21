@@ -1,12 +1,13 @@
 {
   "name": "04-wheather-app",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "homepage": "https://noolie.github.io/weather-app/",
   "dependencies": {
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-dom": "^15.6.1",
+    "react-fontawesome": "^1.6.1",
     "react-scripts": "1.0.13"
   },
   "scripts": {

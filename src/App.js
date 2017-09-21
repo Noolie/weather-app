@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import FontAwesome from 'react-fontawesome';
 
 class SmallWeatherInfo extends React.Component {
   getDate(date){
@@ -44,6 +45,7 @@ class FullWeatherInfo extends React.Component {
           <img className='day-icon-full' src={'big-icons/' + (this.props.icon.match(/n/)?this.props.icon.replace(/n/, 'd'):this.props.icon) + '.png'} alt={this.props.icon.match(/n/)?this.props.icon.replace(/n/, 'd'):this.props.icon}/>
           <p className='day-temp-full'>{this.props.temp} &deg;</p>
           <p className='day-weather-full'>{this.props.weather}</p>
+          <button className='return-button' onClick={this.props.backToStart}><FontAwesome name='refresh'></FontAwesome></button>
         </div>
         <div className='day-pressure-full'>
           <p>{this.props.pressure}</p>
@@ -150,17 +152,29 @@ class App extends React.Component {
     if(ev.key !== 'Enter' && ev.target.tagName !== 'BUTTON') return;
     let searchValue = this.refs.searchField.value;
     if(searchValue.length < 3) return;
+    this.refs.searchBoard.classList.add('is-searching');
     this.refs.searchOutput.innerHTML = '';
-    for(let i = 0; i < this.state.CCData.length; i++){
-      if(this.state.CCData[i].nm.toLowerCase().indexOf(searchValue.toLowerCase()) === -1) continue
-      let listItem = document.createElement('LI');
-      listItem.classList.add('search-result');
-      listItem.setAttribute('data-city-id', this.state.CCData[i].id);
-      listItem.setAttribute('data-CC-name',this.state.CCData[i].countryCode +', '+ this.state.CCData[i].nm);
-      listItem.addEventListener('click', this.getData);
-      listItem.innerHTML = this.state.CCData[i].nm + ' - ' + this.state.CCData[i].countryCode;
-      this.refs.searchOutput.appendChild(listItem)
-    }
+    setTimeout(()=>{
+      for(let i = 0; i < this.state.CCData.length; i++){
+        if(this.state.CCData[i].nm.toLowerCase().indexOf(searchValue.toLowerCase()) === -1) continue
+        let listItem = document.createElement('LI');
+        listItem.classList.add('search-result');
+        listItem.setAttribute('data-city-id', this.state.CCData[i].id);
+        listItem.setAttribute('data-CC-name',this.state.CCData[i].countryCode +', '+ this.state.CCData[i].nm);
+        listItem.addEventListener('click', this.getData);
+        listItem.innerHTML = this.state.CCData[i].nm + ' - ' + this.state.CCData[i].countryCode;
+        this.refs.searchOutput.appendChild(listItem);
+
+      }
+    }, 400)
+    setTimeout(()=>{
+      if(this.refs.searchOutput.children.length < 1) {
+          let noChildren = document.createElement('LI');
+          noChildren.innerHTML = 'Nothing has found';
+          noChildren.classList.add('no-result');
+          this.refs.searchOutput.appendChild(noChildren);
+      }
+    },405)
   }
 
   backToStart(){
@@ -172,8 +186,8 @@ class App extends React.Component {
 
   render() {
     if(!this.state.CCName) return (
-      <div className='search-board'>
-        <button className='search-button ' onClick={this.searchCity.bind(this)}>&#128269;</button>
+      <div ref='searchBoard' className='search-board'>
+        <button className='search-button' onClick={this.searchCity.bind(this)}><FontAwesome name='search' className='search-fa' /></button>
         <input className='search-field' ref='searchField' type='text' placeholder='city' onKeyPress={this.searchCity.bind(this)} />
         <ul ref='searchOutput' className='search-output'></ul>
       </div>
@@ -181,7 +195,6 @@ class App extends React.Component {
     if(!this.state.data) return <p className='notification'>{this.state.initText}</p>
     return (
       <div className='weather-board'>
-        <button className='return-button' onClick={this.backToStart.bind(this)}>return</button>
         <ul className="small-weather-info">
           {this.state.data.list.map((item,i) => {
               if(!item.dt_txt.match(/12:00:00/)) return;
@@ -211,6 +224,7 @@ class App extends React.Component {
             return (
                 <FullWeatherInfo
                   key={i}
+                  backToStart={this.backToStart.bind(this)}
                   time={item.dt_txt}
                   temp={Math.round(item.main.temp)}
                   weather={item.weather[0].description}
