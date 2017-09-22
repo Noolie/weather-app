@@ -69,7 +69,7 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      initText: 'loading...'
+      initText: 'loading...',
     }
   }
 
@@ -149,35 +149,27 @@ class App extends React.Component {
   }
 
   searchCity(ev){
-    if(ev.key !== 'Enter' && ev.target.tagName !== 'BUTTON' && ev.target.tagName !== 'SPAN') return;
-    console.log(ev.target.tagName)
-    let searchValue = this.refs.searchField.value;
-    if(searchValue.length < 3) return;
-    this.refs.searchBoard.classList.add('is-searching');
+    // if(ev.key !== 'Enter' && ev.target.tagName !== 'BUTTON' && ev.target.tagName !== 'SPAN') return;
+  let searchValue = this.refs.searchField.value;
+  if(searchValue.length < 3) {
     this.refs.searchOutput.innerHTML = '';
-    setTimeout(()=>{
-      for(let i = 0; i < this.state.CCData.length; i++){
-        if(this.state.CCData[i].nm.toLowerCase().indexOf(searchValue.toLowerCase()) === -1) continue
-        let listItem = document.createElement('LI');
-        listItem.classList.add('search-result');
-        listItem.setAttribute('data-city-id', this.state.CCData[i].id);
-        listItem.setAttribute('data-CC-name',this.state.CCData[i].countryCode +', '+ this.state.CCData[i].nm);
-        listItem.addEventListener('click', this.getData);
-        listItem.innerHTML = this.state.CCData[i].nm + ' - ' + this.state.CCData[i].countryCode;
-        this.refs.searchOutput.appendChild(listItem);
-
-      }
-    }, 400)
-    setTimeout(()=>{
-      if(this.refs.searchOutput.children.length < 1) {
-          let noChildren = document.createElement('LI');
-          noChildren.innerHTML = 'Nothing has found';
-          noChildren.classList.add('no-result');
-          this.refs.searchOutput.appendChild(noChildren);
-      }
-    },405)
+    return;
   }
-
+  this.refs.searchBoard.classList.add('is-searching');
+  setTimeout(()=>{
+    this.refs.searchOutput.innerHTML = '';
+    for(let i = 0; i < this.state.CCData.length; i++){
+      if(this.state.CCData[i].nm.toLowerCase().indexOf(searchValue.toLowerCase()) === -1) continue
+      let listItem = document.createElement('LI');
+      listItem.classList.add('search-result');
+      listItem.setAttribute('data-city-id', this.state.CCData[i].id);
+      listItem.setAttribute('data-CC-name',this.state.CCData[i].countryCode +', '+ this.state.CCData[i].nm);
+      listItem.addEventListener('click', this.getData);
+      listItem.innerHTML = this.state.CCData[i].nm + ' - ' + this.state.CCData[i].countryCode;
+      this.refs.searchOutput.appendChild(listItem);
+      }
+    }, 300)
+  }
   backToStart(){
     this.setState({
       CCName: '',
@@ -188,8 +180,8 @@ class App extends React.Component {
   render() {
     if(!this.state.CCName) return (
       <div ref='searchBoard' className='search-board'>
-        <button className='search-button' onClick={this.searchCity.bind(this)}><FontAwesome name='search' className='search-fa' /></button>
-        <input className='search-field' ref='searchField' type='text' placeholder='city' onKeyPress={this.searchCity.bind(this)} />
+        <div className='search-button'><FontAwesome name='search' className='search-fa' /></div>
+        <input className='search-field' ref='searchField' type='text' placeholder='city' onChange={this.searchCity.bind(this)} />
         <ul ref='searchOutput' className='search-output'></ul>
       </div>
     )
